@@ -12,6 +12,9 @@ import time
 import json
 import subprocess 
 from apply_net import main as apply_net_main
+import os 
+
+cfg_file = os.environ['CFG_FILE']
 
 requests_queue = Queue()
 
@@ -84,20 +87,21 @@ def run(input_file_in_memory, method):
   if input_file_in_memory.shape[2] == 4 :
     input_file_in_memory = input_file_in_memory[:,:,0:-1]
     
-  if method == 'instancesegmentation' or method == 'predictions' :
-    config_file = '/workspace/detectron2_repo/configs/quick_schedules/mask_rcnn_R_50_FPN_inference_acc_test.yaml'  
-  elif method == 'panopticsegmentation' :
-    config_file = '/workspace/detectron2_repo/configs/quick_schedules/panoptic_fpn_R_50_inference_acc_test.yaml'
-  elif method == 'keypoint' :
-    config_file = '/workspace/detectron2_repo/configs/quick_schedules/keypoint_rcnn_R_50_FPN_inference_acc_test.yaml'
-  elif method == 'densepose' :
-    io_buf = None
-    io_buf = io.BytesIO(apply_net_main(input_file_in_memory))
-    return io_buf
-  else :
-    return {'message': 'invalid parameter'}
+  # if method == 'instancesegmentation' or method == 'predictions' :
+  #   config_file = '/workspace/detectron2_repo/configs/quick_schedules/mask_rcnn_R_50_FPN_inference_acc_test.yaml'  
+  # elif method == 'panopticsegmentation' :
+  #   config_file = '/workspace/detectron2_repo/configs/quick_schedules/panoptic_fpn_R_50_inference_acc_test.yaml'
+  # elif method == 'keypoint' :
+  #   config_file = '/workspace/detectron2_repo/configs/quick_schedules/keypoint_rcnn_R_50_FPN_inference_acc_test.yaml'
+  # elif method == 'densepose' :
+  #   io_buf = None
+  #   io_buf = io.BytesIO(apply_net_main(input_file_in_memory))
+  #   return io_buf
+  # else :
+  #   return {'message': 'invalid parameter'}
 
-  cfg = setup_cfg(config_file=config_file, is_gpu=False)
+  # we are going to use the config file defined during the build process
+  cfg = setup_cfg(config_file=cfg_file, is_gpu=False)
   debug = False if method == 'predictions' else True
   demo = VisualizationDemo(cfg, debug=debug)
   predictions, visualized_output, obj = demo.run_on_image(input_file_in_memory, debug)

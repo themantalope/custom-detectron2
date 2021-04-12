@@ -1,10 +1,19 @@
 FROM nvidia/cuda:10.1-cudnn7-devel
 CMD ["bash"]
 
+ARG cfg_yaml_file
+ARG model_pth_file
+
 RUN apt-get update
 RUN mkdir /workspace
 RUN mkdir /workspace/uploads 
 WORKDIR /workspace
+
+ENV CFG_FILE=/workspace/$cfg_yaml_file
+ENV MODEL_FILE=/workspace/$model_pth_file
+
+COPY $cfg_yaml_file $CFG_FILE
+COPY $model_pth_file $MODEL_FILE
 
 RUN apt-get update && apt-get install -y python3-dev git wget
 RUN rm -rf /var/lib/apt/lists/*
