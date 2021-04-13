@@ -38,8 +38,8 @@ RUN  pip install -e detectron2_repo/projects/TensorMask
 
 RUN apt-get install wget
 #denspose model
-RUN wget https://dl.fbaipublicfiles.com/densepose/densepose_rcnn_R_50_FPN_s1x/143908701/model_final_dd99d2.pkl -O /workspace/detectron2_repo/densepose_rcnn_R_50_FPN_s1x.pkl
-RUN wget http://images.cocodataset.org/val2017/000000439715.jpg -O /workspace/uploads/input.jpg
+# RUN wget https://dl.fbaipublicfiles.com/densepose/densepose_rcnn_R_50_FPN_s1x/143908701/model_final_dd99d2.pkl -O /workspace/detectron2_repo/densepose_rcnn_R_50_FPN_s1x.pkl
+# RUN wget http://images.cocodataset.org/val2017/000000439715.jpg -O /workspace/uploads/input.jpg
 RUN apt-get update
 RUN apt-get install -y libsm6 libxext6 libxrender-dev
 RUN apt-get install -y libgtk2.0-dev
@@ -65,18 +65,18 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.6 2
 RUN python --version
 
 # model download and test
-RUN python /workspace/detectron2_repo/demo-cpu.py \
-    --input /workspace/uploads/input.jpg \
-    --output /workspace/uploads/output_test1.jpg \
-    --config-file /workspace/detectron2_repo/configs/quick_schedules/panoptic_fpn_R_50_inference_acc_test.yaml
-RUN python /workspace/detectron2_repo/demo-cpu.py \
-    --input /workspace/uploads/input.jpg \
-    --output /workspace/uploads/output_test2.jpg \
-    --config-file /workspace/detectron2_repo/configs/quick_schedules/mask_rcnn_R_50_FPN_inference_acc_test.yaml
-RUN python /workspace/detectron2_repo/demo-cpu.py \
-    --input /workspace/uploads/input.jpg \
-    --output /workspace/uploads/output_test3.jpg \
-    --config-file /workspace/detectron2_repo/configs/quick_schedules/keypoint_rcnn_R_50_FPN_inference_acc_test.yaml
+# RUN python /workspace/detectron2_repo/demo-cpu.py \
+#     --input /workspace/uploads/input.jpg \
+#     --output /workspace/uploads/output_test1.jpg \
+#     --config-file /workspace/detectron2_repo/configs/quick_schedules/panoptic_fpn_R_50_inference_acc_test.yaml
+# RUN python /workspace/detectron2_repo/demo-cpu.py \
+#     --input /workspace/uploads/input.jpg \
+#     --output /workspace/uploads/output_test2.jpg \
+#     --config-file /workspace/detectron2_repo/configs/quick_schedules/mask_rcnn_R_50_FPN_inference_acc_test.yaml
+# RUN python /workspace/detectron2_repo/demo-cpu.py \
+#     --input /workspace/uploads/input.jpg \
+#     --output /workspace/uploads/output_test3.jpg \
+#     --config-file /workspace/detectron2_repo/configs/quick_schedules/keypoint_rcnn_R_50_FPN_inference_acc_test.yaml
 
 COPY server-gpu.py ./detectron2_repo
 EXPOSE 80
