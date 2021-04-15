@@ -11,7 +11,7 @@ import threading
 import time 
 import json
 import subprocess 
-from apply_net import main as apply_net_main
+# from apply_net import main as apply_net_main
 import os 
 
 cfg_file = os.environ['CFG_FILE']
